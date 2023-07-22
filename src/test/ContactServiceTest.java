@@ -25,8 +25,8 @@ public class ContactServiceTest {
         setUp();
 
         // Create to contacts and confirm that their position matches their contactID
-        assertEquals("john.doe", ContactService.getContacts()[0].getContactID());
-        assertEquals("jane.doe", ContactService.getContacts()[1].getContactID());
+        assertEquals("john.doe", ContactService.getContacts()[1].getContactID());
+        assertEquals("jane.doe", ContactService.getContacts()[0].getContactID());
     }
 
     @Test
@@ -45,7 +45,7 @@ public class ContactServiceTest {
 
         // Add a contact then update its first name and confirm the change
         ContactService.updateContactFirstName("john.doe", "Johnathan");
-        assertEquals("Johnathan", ContactService.getContacts()[0].getFirstName());
+        assertEquals("Johnathan", ContactService.getContacts()[1].getFirstName());
     }
 
     @Test
@@ -54,7 +54,7 @@ public class ContactServiceTest {
 
         // Add a contact then update its last name and confirm the change
         ContactService.updateLastName("john.doe", "Doeman");
-        assertEquals("Doeman", ContactService.getContacts()[0].getLastName());
+        assertEquals("Doeman", ContactService.getContacts()[1].getLastName());
     }
 
     @Test
@@ -91,7 +91,8 @@ public class ContactServiceTest {
 
         // Add two contacts then remove the first and confirm its position is null
         ContactService.removeContact("john.doe");
-        assertNull(ContactService.getContacts()[0]);
+        // Assert length of map is 1
+        assertEquals(1, ContactService.getContacts().length);
     }
 
     @Test
@@ -110,7 +111,6 @@ public class ContactServiceTest {
 
         // Add two contacts then reset the contact list and confirm the list is empty
         ContactService.resetContacts();
-        assertNull(ContactService.getContacts()[0]);
-        assertNull(ContactService.getContacts()[1]);
+        assertEquals(0, ContactService.getContacts().length);
     }
 }

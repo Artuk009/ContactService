@@ -5,14 +5,13 @@ import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 import static org.junit.Assert.*;
 
-// Test constructor values are set correctly
 public class ContactTest {
     @Test
     public void testContact() {
         // Confirm that the constructor sets the values as expected
         Contact contact = new Contact(
                 "john.doe", "John", "Doe", "1234567890", "123 Main St");
-        assertEquals("1234567890", contact.getContactID());
+        assertEquals("john.doe", contact.getContactID());
         assertEquals("John", contact.getFirstName());
         assertEquals("Doe", contact.getLastName());
         assertEquals("1234567890", contact.getPhone());
@@ -33,7 +32,7 @@ public class ContactTest {
         // Confirm that the constructor throws an exception when given a contactID that is too long
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
             new Contact(
-                    "john.doe", "John", "Doe", "1234567890", "123 Main St");
+                    "john.doe@gmail.com", "John", "Doe", "1234567890", "123 Main St");
         });
     }
 
