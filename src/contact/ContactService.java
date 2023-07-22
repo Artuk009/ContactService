@@ -1,94 +1,79 @@
 package contact;
 
 import java.util.Arrays;
-import java.util.Objects;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ContactService {
 
-    private static final Contact[] contacts = new Contact[10];
+    // Create a map to store contacts
+    private static final Map<String, Contact> contacts = new HashMap<>();
 
     // Method to add a contact to the contact list if there is space
     public static void addContact(Contact contact) {
-        for (int i = 0; i < contacts.length; i++) {
-            if (contacts[i] == null) {
-                contacts[i] = contact;
-                return;
-            }
-            if (Objects.equals(contacts[i].getContactID(), contact.getContactID())) {
-                throw new IllegalStateException("Contact already exists");
-            }
+        if (contacts.containsKey(contact.getContactID())) {
+            throw new IllegalStateException("Contact already exists");
         }
-        throw new IllegalStateException("Contact list is full");
+        contacts.put(contact.getContactID(), contact);
     }
 
     // Method to change the first name of a contact by contact ID
     public static void updateContactFirstName(String contactID, String firstName) {
-        for (Contact contact : contacts) {
-            if (contact != null && contact.getContactID().equals(contactID)) {
-                contact.setFirstName(firstName);
-                return;
-            }
+        Contact contact = contacts.get(contactID);
+        if (contact == null) {
+            throw new IllegalStateException("Contact not found");
         }
-        throw new IllegalStateException("Contact not found");
+        contact.setFirstName(firstName);
     }
 
     // Method to change the last name of a contact by contact ID
     public static void updateLastName(String contactID, String lastName) {
-        for (Contact contact : contacts) {
-            if (contact != null && contact.getContactID().equals(contactID)) {
-                contact.setLastName(lastName);
-                return;
-            }
+        Contact contact = contacts.get(contactID);
+        if (contact == null) {
+            throw new IllegalStateException("Contact not found");
         }
-        throw new IllegalStateException("Contact not found");
+        contact.setLastName(lastName);
     }
 
     // Method to change the phone number of a contact by contact ID
     public static void updatePhone(String contactID, String phone) {
-        for (Contact contact : contacts) {
-            if (contact != null && contact.getContactID().equals(contactID)) {
-                contact.setPhone(phone);
-                return;
-            }
+        Contact contact = contacts.get(contactID);
+        if (contact == null) {
+            throw new IllegalStateException("Contact not found");
         }
-        throw new IllegalStateException("Contact not found");
+        contact.setPhone(phone);
     }
 
     // Method to change the address of a contact by contact ID
     public static void updateAddress(String contactID, String address) {
-        for (Contact contact : contacts) {
-            if (contact != null && contact.getContactID().equals(contactID)) {
-                contact.setAddress(address);
-                return;
-            }
+        Contact contact = contacts.get(contactID);
+        if (contact == null) {
+            throw new IllegalStateException("Contact not found");
         }
-        throw new IllegalStateException("Contact not found");
+        contact.setAddress(address);
     }
 
     // Method to remove a contact from the contact list by contact ID
     public static void removeContact(String contactID) {
-        for (int i = 0; i < contacts.length; i++) {
-            if (contacts[i] != null && contacts[i].getContactID().equals(contactID)) {
-                contacts[i] = null;
-                return;
-            }
+        if (!contacts.containsKey(contactID)) {
+            throw new IllegalStateException("Contact not found");
         }
-        throw new IllegalStateException("Contact not found");
+        contacts.remove(contactID);
     }
 
     public static Contact[] getContacts() {
-        return contacts;
+        return contacts.values().toArray(new Contact[0]);
     }
 
     // This method resets the application to its initial state for testing purposes
     public static void resetContacts() {
-        for (int i = 0; i < contacts.length; i++) {
-            contacts[i] = null;
-        }
+        contacts.clear();
     }
 
     @Override
     public String toString() {
-        return "ContactService{" + "contacts=" + Arrays.toString(contacts) + '}';
+        return "ContactService{" +
+                "contacts=" + Arrays.toString(getContacts()) +
+                '}';
     }
 }
